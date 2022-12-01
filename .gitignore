@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+env/
+
+
+# PyCharm
+.idea/
+
+
+# Project
+**/store/*
+!**/store/.gitkeep

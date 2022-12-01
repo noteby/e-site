@@ -1,0 +1,12 @@
+Generic single-database configuration.
+
+
+
+Commands
+```
+alembic revision --autogenerate -m "Create users table"
+
+alembic history
+
+alembic upgrade head
+```
