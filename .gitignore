@@ -10,3 +10,5 @@ env/
 # Project
 **/store/*
 !**/store/.gitkeep
+tests/
+tmp/

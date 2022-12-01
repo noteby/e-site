@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 #
+from .middleware import middleware
 from .routers import router
 from .setup import setup
 
 api = FastAPI(
     version='0.1.0',
+    middleware=middleware,
 )
 
 
