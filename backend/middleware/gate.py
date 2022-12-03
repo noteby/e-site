@@ -1,11 +1,15 @@
 import http
 from uuid import uuid4
 #
+from loguru import logger
 from starlette.datastructures import MutableHeaders
 from starlette.types import ASGIApp, Message, Scope, Receive, Send
 #
 from backend.utils.context import request_id
+from backend.utils.errors.errorcode import HttpError
+from backend.utils.errors.exceptions import ApiException
 from backend.utils.request import RequestInfo
+from backend.utils.response import make_response
 
 
 class GateMiddleware:
@@ -40,11 +44,20 @@ class GateMiddleware:
             elif message['type'] == 'http.response.body':
                 # If status >= 400, will logged body
                 if request_info.status >= http.HTTPStatus.BAD_REQUEST:
-                    request_info.level = 'WARNING'
                     request_info.err_resp = message['body'].decode()
             #
             await send(message)
 
-        await self.app(scope, receive, send_wrapper)
-
-        request_info.log()
+        try:
+            await self.app(scope, receive, send_wrapper)
+        except Exception as _:
+            e = HttpError.internal_server_error
+            logger.exception(e.desc)
+            exc = ApiException(e)
+            #
+            request_info.status = exc.status_code
+            response = make_response(**exc.__dict__)
+            #
+            await response(scope, receive, send)
+        finally:
+            request_info.log()

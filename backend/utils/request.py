@@ -1,3 +1,4 @@
+import http
 import time
 from dataclasses import dataclass, field
 from json.decoder import JSONDecodeError
@@ -13,7 +14,6 @@ from starlette.types import Scope
 @dataclass
 class RequestInfo:
     start_at: float = field(default_factory=time.time)
-    level: str = 'INFO'
     #
     duration: str = None  # second
     status: int = 0
@@ -84,4 +84,11 @@ class RequestInfo:
         """
         - logged request info
         """
-        logger.log(self.level, self.dict().__str__())
+        if self.status < http.HTTPStatus.BAD_REQUEST:
+            __level = 'INFO'
+        elif self.status < http.HTTPStatus.INTERNAL_SERVER_ERROR:
+            __level = 'WARNING'
+        else:
+            __level = 'ERROR'
+
+        logger.log(__level, self.dict().__str__())

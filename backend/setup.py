@@ -9,7 +9,7 @@ def _setup():
 def setup():
     from loguru import logger
     #
-    from .utils.exceptions import SetupException
+    from .utils.errors.exceptions import SetupException
 
     try:
         _setup()

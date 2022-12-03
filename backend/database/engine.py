@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 #
 from backend.settings import database_config
-from backend.utils.exceptions import SetupException
+from backend.utils.errors.exceptions import SetupException
 
 
 class Config(BaseModel):
