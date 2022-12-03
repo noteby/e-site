@@ -10,6 +10,6 @@ database_config: dict = {
     'url': f"sqlite:///{store_dir / 'dev.db'}",  # sqlite3
     'echo': True,
     'connect_args': {
-        'check_same_thread': True
+        'check_same_thread': False
     }
 }
