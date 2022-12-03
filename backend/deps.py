@@ -5,7 +5,7 @@ from .database.engine import SessionLocal
 from .utils.request import RequestInfo
 
 
-def get_db() -> Session:
+async def get_db() -> Session:
     db: Session = SessionLocal()
     try:
         yield db
