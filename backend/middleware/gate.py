@@ -1,6 +1,7 @@
 import http
 from uuid import uuid4
 #
+from starlette.datastructures import MutableHeaders
 from starlette.types import ASGIApp, Message, Scope, Receive, Send
 #
 from backend.utils.context import request_id
@@ -12,6 +13,8 @@ class GateMiddleware:
     - generate trace info
     - logged request info
     """
+
+    header_request_id: str = 'X-Request-ID'
 
     def __init__(self, app: ASGIApp) -> None:
         self.app = app
@@ -30,6 +33,9 @@ class GateMiddleware:
             nonlocal request_info
             if message['type'] == 'http.response.start':
                 request_info.status = message['status']
+                #
+                headers = MutableHeaders(scope=message)
+                headers[self.header_request_id] = request_id.get()
 
             elif message['type'] == 'http.response.body':
                 # If status >= 400, will logged body
