@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 #
+from .deps import filter_request_payload
 from .middleware import middleware
 from .routers import router
 from .setup import setup
@@ -7,6 +8,7 @@ from .setup import setup
 api = FastAPI(
     version='0.1.0',
     middleware=middleware,
+    dependencies=[Depends(filter_request_payload)],
 )
 
 
