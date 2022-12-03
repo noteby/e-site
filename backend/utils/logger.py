@@ -2,6 +2,8 @@ import logging
 import sys
 #
 from loguru import logger
+#
+from .context import request_id
 
 
 class InterceptHandler(logging.Handler):
@@ -27,17 +29,25 @@ class InterceptHandler(logging.Handler):
         )
 
 
+class RequestIDFilter:
+    def __call__(self, record: dict):
+        record['extra']['request_id'] = request_id.get()
+        return True
+
+
 def setup():
     logger.remove(None)
     #
     logger.add(
         sink=sys.stdout,
+        filter=RequestIDFilter(),
         diagnose=False,
         backtrace=False,
         catch=True,
         enqueue=True,
         format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
                "<level>{level:<8}</level> | "
+               "<level>{extra[request_id]}</level> | "
                "<cyan>{name}</cyan>:"
                "<cyan>{function}</cyan>@"
                "<cyan>{line}</cyan> - "

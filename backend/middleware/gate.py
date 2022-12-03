@@ -1,7 +1,9 @@
 import http
+from uuid import uuid4
 #
 from starlette.types import ASGIApp, Message, Scope, Receive, Send
 #
+from backend.utils.context import request_id
 from backend.utils.request import RequestInfo
 
 
@@ -17,7 +19,9 @@ class GateMiddleware:
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         if scope["type"] != 'http':  # http | websocket | lifespan
             return await self.app(scope, receive, send)
-        # Request info
+        #
+        request_id.set(uuid4().hex)
+        #
         request_info = RequestInfo()
         request_info.filter_base(scope)
         scope['request_info'] = request_info
