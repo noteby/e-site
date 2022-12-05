@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Optional, Any, Mapping
 #
 from .errorcode import ErrorCode
 
@@ -12,9 +12,13 @@ class SetupException(_BaseException):
 
 
 class ApiException(_BaseException):
-    def __init__(self, e: ErrorCode, detail: Any = None):
-        self.code: int = e.code
-        self.desc: str = e.desc
-        self.detail: Any = detail if detail else e.detail
+    def __init__(
+            self, e: ErrorCode, detail: Any = None,
+            headers: Optional[Mapping[str, str]] = None,
+    ):
+        self.code = e.code
+        self.desc = e.desc
+        self.detail = detail if detail else e.detail
 
-        self.status_code: int = e.status_code
+        self.headers = headers
+        self.status_code = e.status_code
