@@ -2,6 +2,7 @@ from datetime import datetime
 #
 from loguru import logger
 from passlib.context import CryptContext
+from passlib.exc import UnknownHashError
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 #
@@ -15,7 +16,11 @@ def get_password_hash(password):
 
 
 def verify_password(password, hashed_password):
-    return pwd_context.verify(password, hashed_password)
+    try:
+        return pwd_context.verify(password, hashed_password)
+    except UnknownHashError:
+        logger.warning('Hashed password could not be identified')
+        return False
 
 
 def get_user_by_email(db: Session, email: str) -> User | None:
