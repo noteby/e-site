@@ -6,6 +6,7 @@ from .openapi import reset_api_doc
 from .routers import router
 from .setup import setup
 from .utils.errors.handlers import exception_handlers
+from .utils.response import examples_for_error_response
 
 api = FastAPI(
     debug=False,
@@ -17,6 +18,7 @@ api = FastAPI(
     middleware=middleware,
     dependencies=[Depends(filter_request_payload)],
     exception_handlers=exception_handlers,
+    responses=examples_for_error_response(),
 )
 
 

@@ -2,14 +2,14 @@ import time
 from typing import Any
 #
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class ErrorResp(BaseModel):
     code: int
     desc: str
     detail: Any
-    timestamp: int = Field(default_factory=lambda: int(time.time()))
+    timestamp: int
 
 
 def make_response(
@@ -21,7 +21,19 @@ def make_response(
             code=code,
             desc=desc,
             detail=detail,
+            timestamp=int(time.time()),
         ).dict(),
         status_code=status_code,
         headers=headers
     )
+
+
+def examples_for_error_response():
+    from .errors.errorcode import HttpError
+
+    return {e.code: dict(model=ErrorResp, description=e.desc)
+            for e in [
+                HttpError.bad_request,
+                HttpError.unprocessable_entity,
+                HttpError.internal_server_error,
+            ]}
