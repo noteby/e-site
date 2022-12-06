@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from .database.engine import SessionLocal
 from .database.models import User
 from .internal import auth
+from .settings import settings
 from .utils.errors.errorcode import HttpError
 from .utils.errors.exceptions import ApiException
 from .utils.request import RequestInfo
@@ -35,8 +36,8 @@ def basic_auth(credentials: HTTPBasicCredentials = Depends(http_basic)) -> str:
             _correct.encode('utf8'),
         )
 
-    is_correct_username = _compare_digest(credentials.username, 'admin')
-    is_correct_password = _compare_digest(credentials.password, 'admin')
+    is_correct_username = _compare_digest(credentials.username, settings.api_doc.username)
+    is_correct_password = _compare_digest(credentials.password, settings.api_doc.password)
     if not (is_correct_username and is_correct_password):
         raise ApiException(
             HttpError.unauthorized,
