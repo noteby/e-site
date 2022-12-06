@@ -31,7 +31,7 @@ class GateMiddleware:
         #
         request_info = RequestInfo()
         request_info.filter_base(scope)
-        scope['request_info'] = request_info
+        scope['_request_info'] = request_info
 
         async def send_wrapper(message: Message) -> None:
             nonlocal request_info

@@ -24,7 +24,7 @@ async def get_db() -> Session:
 
 
 async def filter_request_payload(request: Request):
-    request_info: RequestInfo = request.scope['request_info']
+    request_info: RequestInfo = request.scope['_request_info']
     await request_info.filter_payload(request)
 
 
