@@ -21,5 +21,5 @@ def reset_api_doc(api: FastAPI):
     def doc_html():
         return get_redoc_html(
             openapi_url=openapi_url,
-            title='E Api | Doc'
+            title='E Api - Doc'
         )
