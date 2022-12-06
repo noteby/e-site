@@ -8,12 +8,15 @@ from pydantic import BaseModel, EmailStr, ValidationError
 #
 from backend.database.engine import SessionLocal
 from backend.internal.user import User, get_user_by_email
+from backend.settings import settings
 from backend.utils.errors.errorcode import HttpError
 from backend.utils.errors.exceptions import ApiException
 
-SECRET_KEY = '0x123'
+SECRET_KEY = settings.auth.secret_key
+#
 ALGORITHM = 'HS256'
-DEFAULT_EXPIRE_MINUTES = 60 * 24 * 3
+#
+DEFAULT_EXPIRE_MINUTES = 60 * 24 * 1
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl='/v1/auth/token',
@@ -88,7 +91,7 @@ async def get_current_user(
     return user
 
 
-async def get_current_scopes_user(
-        user: User = Security(get_current_user, scopes=['default'])
-):
+async def get_current_scopes_user(user: User = Security(
+    get_current_user, scopes=['default']
+)):
     return user

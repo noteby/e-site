@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, Engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 #
-from backend.settings import database_config
+from backend.settings import settings
 from backend.utils.errors.exceptions import SetupException
 
 
@@ -16,13 +16,19 @@ class Config(BaseModel):
 
 
 try:
-    config = Config(**database_config)
+    config = Config(
+        **settings.database.dict()
+    )
 except ValidationError as e:
     logger.error(f'Database config error, {e.json()}')
     raise SetupException
 
-engine: Engine = create_engine(**config.dict())
-SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+engine: Engine = create_engine(
+    **config.dict()
+)
+SessionLocal = sessionmaker(
+    bind=engine, autocommit=False, autoflush=False
+)
 
 Base = declarative_base()
 

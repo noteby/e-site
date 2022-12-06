@@ -10,5 +10,6 @@ env/
 # Project
 **/store/*
 !**/store/.gitkeep
+.toml
 tests/
 tmp/
