@@ -33,6 +33,15 @@ SessionLocal = sessionmaker(
 Base = declarative_base()
 
 
-def setup():  # Mock
+def setup():
+    from sqlalchemy.exc import OperationalError
+    # Test connect
+    try:
+        db = SessionLocal()
+        db.connection()
+        db.close()
+    except OperationalError as _e:
+        logger.error(f'Database connect error, {_e}')
+        raise SetupException
 
     logger.debug('Database setup ok')
