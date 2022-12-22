@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta
-from typing import List
 #
 from fastapi import Depends, Security
 from fastapi.security import OAuth2PasswordBearer, SecurityScopes
 from jose import JWTError, jwt
-from pydantic import BaseModel, EmailStr, ValidationError
+from pydantic import ValidationError
 #
 from backend.database.engine import SessionLocal
+from backend.definer.schema import JwtData
 from backend.internal.user import User, get_user_by_email
 from backend.settings import settings
 from backend.utils.errors.errorcode import HttpError
@@ -27,21 +27,14 @@ oauth2_scheme = OAuth2PasswordBearer(
 )
 
 
-class TokenData(BaseModel):
-    email: EmailStr = None
-    scopes: List[str] = []
-
-
 def create_access_token(
-        data: dict, expires_minutes: int | None = None,
+        data: JwtData, expires_minutes: int | None = None,
 ):
-    to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(
+    data.exp = datetime.utcnow() + timedelta(
         minutes=expires_minutes or DEFAULT_EXPIRE_MINUTES
     )
-    to_encode.update({'exp': expire})
     encoded_jwt = jwt.encode(
-        to_encode, SECRET_KEY, algorithm=ALGORITHM
+        data.dict(), SECRET_KEY, algorithm=ALGORITHM
     )
     return encoded_jwt
 
@@ -65,19 +58,17 @@ async def get_current_user(
     try:
         # Decode jwt
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get('sub')
-        scopes: List = payload.get('scopes', [])
         # Validate
-        token_data = TokenData(scopes=scopes, email=email)
+        jwt_data = JwtData(**payload)
     except (JWTError, ValidationError):
         raise exc
     # Get user
-    user = get_user_by_email(db, email=token_data.email)
-    if user is None:
+    user = get_user_by_email(db, email=jwt_data.sub)
+    if user is None or user.id != jwt_data.uid:
         raise exc
-    # Scope
+    # Check scope
     for scope in security_scopes.scopes:
-        if scope in token_data.scopes:
+        if scope in jwt_data.scopes:
             continue
         exc.detail = 'Not enough permissions'
         raise exc

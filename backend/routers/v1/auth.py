@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 #
 from backend.definer.request import SimpleOAuth2PasswordRequestForm
 from backend.definer.response import AuthToken
+from backend.definer.schema import JwtData
 from backend.deps import get_db, current_user, current_scopes_user
 from backend.internal.auth import create_access_token
 from backend.internal.user import User, authenticate_user
@@ -23,9 +24,11 @@ def login_for_token(
             headers={'www-authenticate': 'Bearer'}
         )
 
-    access_token = create_access_token(
-        data={'sub': user.email, 'scopes': req.scopes},
-    )
+    access_token = create_access_token(JwtData(
+        sub=user.email,
+        uid=user.id,
+        scopes=req.scopes,
+    ))
     return AuthToken(access_token=access_token)
 
 
