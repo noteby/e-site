@@ -9,10 +9,10 @@ from backend.internal.user import User, authenticate_user
 from backend.utils.errors.errorcode import HttpError
 from backend.utils.errors.exceptions import ApiException
 
-auth = APIRouter(tags=['Auth'])
+router = APIRouter(tags=['Auth'])
 
 
-@auth.post('/token', response_model=AuthToken)
+@router.post('/token', response_model=AuthToken)
 def login_for_token(
         req: SimpleOAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
 ):
@@ -29,12 +29,12 @@ def login_for_token(
     return AuthToken(access_token=access_token)
 
 
-@auth.get('/test')
+@router.get('/test')
 async def test(user: User = Depends(current_user)):
     return user.email
 
 
-@auth.get('/test_default_scope')
+@router.get('/test_default_scope')
 async def test_default_scope(user: User = Depends(
     current_scopes_user(scopes=['default'])
 )):
