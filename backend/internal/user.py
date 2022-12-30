@@ -34,6 +34,11 @@ def authenticate_user(db: Session, email: str, password: str):
         return False
     if not verify_password(password, user.hashed_password):
         return False
+    #
+    user.last_login = datetime.now()
+    db.commit()
+    db.refresh(user)
+
     return user
 
 
