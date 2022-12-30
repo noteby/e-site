@@ -1,6 +1,6 @@
 from fastapi import Form
 # from fastapi.security import OAuth2PasswordRequestForm
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, Field, EmailStr
 
 
 class SimpleOAuth2PasswordRequestForm:
@@ -16,3 +16,16 @@ class SimpleOAuth2PasswordRequestForm:
         self.password = password
         self.scopes = scope.split()
         # self.grant_type = grant_type
+
+
+class NoteBaseInfoReq(BaseModel):
+    title: str = Field(max_length=36)
+    content: str
+
+
+class CreateNoteReq(NoteBaseInfoReq):
+    display: bool | None = Field(default=False)
+
+
+class UpdateNoteReq(CreateNoteReq):
+    ...

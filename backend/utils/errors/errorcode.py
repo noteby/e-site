@@ -34,3 +34,5 @@ class HttpError:
 
 class ApiError:
     api_error = ErrorCode(code=1000, desc='api error')
+    #
+    note_not_exists = ErrorCode(code=2000, desc='note not exists')
