@@ -20,7 +20,7 @@ def create_note(db: Session, title: str, display: bool, content: str) -> Note:
 def update_note(db: Session, note_id: int, title: str, display: bool, content: str) -> Note:
     stmt = (
         update(Note)
-        .where(Note.id == note_id)
+        .where(Note.id == note_id, Note.is_deleted == False)
         .values(title=title, display=display, content=content, updated_at=datetime.now())
         .returning(Note)
     )
@@ -30,8 +30,19 @@ def update_note(db: Session, note_id: int, title: str, display: bool, content: s
     return note
 
 
+def delete_note(db: Session, note_id: int) -> Note:
+    stmt = update(Note).where(
+        Note.id == note_id, Note.is_deleted == False
+    ).values(is_deleted=True).returning(Note)
+
+    note = db.execute(stmt).scalar()
+    db.commit()
+
+    return note
+
+
 def get_note_by_id(db: Session, note_id: int, display: bool = None) -> Note | None:
-    stmt = select(Note).where(Note.id == note_id)
+    stmt = select(Note).where(Note.id == note_id, Note.is_deleted == False)
     if display is not None:
         stmt = stmt.where(Note.display == display)
 
@@ -39,7 +50,9 @@ def get_note_by_id(db: Session, note_id: int, display: bool = None) -> Note | No
 
 
 def get_note_list(db: Session, display: bool = None, limit: int = 8, offset: int = 0):
-    stmt = select(Note).limit(limit).offset(offset).order_by(Note.created_at.desc())
+    stmt = select(Note).where(
+        Note.is_deleted == False
+    ).limit(limit).offset(offset).order_by(Note.created_at.desc())
     if display is not None:
         stmt = stmt.where(Note.display == display)
 
@@ -47,7 +60,7 @@ def get_note_list(db: Session, display: bool = None, limit: int = 8, offset: int
 
 
 def get_note_count(db: Session, display: bool = None):
-    query = db.query(func.count(Note.id))
+    query = db.query(func.count(Note.id)).where(Note.is_deleted == False)
     if display is not None:
         query = query.where(Note.display == display)
 

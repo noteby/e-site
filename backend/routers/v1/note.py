@@ -99,5 +99,6 @@ def update_by_own(note_id: int, req: req_model.UpdateNoteReq, db: Session = Depe
 
 
 @own_router.delete('/{note_id}', response_model=res_model.NoteIDRes)
-def delete_by_own(note_id: int):
-    return res_model.NoteIDRes(note_id=0)
+def delete_by_own(note_id: int, db: Session = Depends(get_db)):
+    note = note_itn.delete_note(db, note_id)
+    return res_model.NoteIDRes(note_id=note.id if note else 0)
