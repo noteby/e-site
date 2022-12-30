@@ -4,12 +4,12 @@ from typing import List
 from pydantic import BaseModel, Field
 
 
-class AuthToken(BaseModel):
+class AuthTokenRes(BaseModel):
     access_token: str
     token_type: str = 'Bearer'
 
 
-class UserInfo(BaseModel):
+class UserInfoRes(BaseModel):
     email: str
 
 
