@@ -23,5 +23,6 @@ class Note(Base):
     title = Column(String(length=36))
     display = Column(Boolean, default=False)
     content = Column(Text)
+    is_deleted = Column(Boolean, default=False)
     created_at = Column(DateTime)
     updated_at = Column(DateTime, nullable=True)
