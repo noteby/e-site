@@ -19,11 +19,7 @@
               <router-view></router-view>
             </div>
 
-            <div class="leading-none text-center">
-              <span class="text-xs text-slate-300">
-                Copyright &copy; 2023 Formeta
-              </span>
-            </div>
+            <Copyright/>
           </div>
         </div>
       </el-main>
@@ -35,6 +31,7 @@
 <script setup>
 import Menu from '~/views/index/menu.vue'
 import Breadcrumb from '~/views/index/breadcrumb.vue'
+import Copyright from '~/views/copyright.vue'
 
 </script>
 

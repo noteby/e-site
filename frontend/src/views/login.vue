@@ -1,32 +1,36 @@
 <template>
-  <div class="flex justify-center">
-    <el-form :model="form"
-             :rules="rules"
-             ref="formRef"
-             inline-message
-             class="e-form">
+  <div class="h-screen flex flex-col justify-between">
+    <div class="flex justify-center">
+      <el-form :model="form"
+               :rules="rules"
+               ref="formRef"
+               inline-message
+               class="e-form">
 
-      <el-form-item prop="email" required>
-        <el-input v-model="form.email"
-                  class="h-9"
-                  placeholder="邮箱"/>
-      </el-form-item>
+        <el-form-item prop="email" required>
+          <el-input v-model="form.email"
+                    class="h-9"
+                    placeholder="邮箱"/>
+        </el-form-item>
 
-      <el-form-item prop="password">
-        <el-input v-model="form.password"
-                  class="h-9"
-                  type="password" show-password
-                  placeholder="密码"/>
-      </el-form-item>
+        <el-form-item prop="password">
+          <el-input v-model="form.password"
+                    class="h-9"
+                    type="password" show-password
+                    placeholder="密码"/>
+        </el-form-item>
 
-      <el-form-item>
-        <el-button class="mx-auto w-60"
-                   :loading='loading'
-                   @click="onSubmit">
-          登 录
-        </el-button>
-      </el-form-item>
-    </el-form>
+        <el-form-item>
+          <el-button class="mx-auto w-60"
+                     :loading='loading'
+                     @click="onSubmit">
+            登 录
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <Copyright/>
   </div>
 </template>
 
@@ -41,6 +45,7 @@ import {reactive, ref} from 'vue'
 import {useRouter} from 'vue-router'
 //
 import {useUserStore} from "~/store/user.js"
+import Copyright from "~/views/copyright.vue"
 
 const userStore = useUserStore()
 const router = useRouter()
