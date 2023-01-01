@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="text-xs text-gray-300">
-        {{ note['created_at'] }}
+        {{ formatDateStr(note['created_at']) }}
       </div>
     </div>
   </div>
@@ -29,6 +29,7 @@
 import {ref, watch} from "vue"
 import {useRoute} from "vue-router"
 import {getNoteList, getNoteListForOwn} from "~/api/note.js"
+import {formatDateStr} from "~/composables/utils"
 
 const route = useRoute()
 const noteList = ref([])

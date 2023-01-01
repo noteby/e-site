@@ -13,7 +13,9 @@
         <span class="text-gray-500 italic">{{ note['display'] ? '显示' : '隐藏' }}</span>
       </div>
     </div>
-    <div class="text-xs text-gray-500">{{ note['created_at'] }}</div>
+    <div class="text-xs text-gray-500">
+      {{ formatDateStr(note['created_at']) }}
+    </div>
     <div class="divide-y divide-solid divide-slate-200">
       <div></div>
       <div></div>
@@ -29,6 +31,7 @@ import {ref, watch} from "vue"
 import {useRoute, useRouter} from "vue-router"
 import Editor from './my/editor.vue'
 import {getNote, getNoteForOwn} from "~/api/note.js"
+import {formatDateStr} from "~/composables/utils"
 
 const route = useRoute()
 const router = useRouter()
