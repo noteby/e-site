@@ -9,12 +9,12 @@
         >编辑
         </router-link>
       </div>
-      <div class="mr-2">
-        <span class="text-gray-500 italic">{{ note['display'] ? '显示' : '隐藏' }}</span>
-      </div>
     </div>
-    <div class="text-xs text-gray-500">
-      {{ formatDateStr(note['created_at']) }}
+    <div class="flex text-xs">
+      <div class="text-gray-300">{{ formatDateStr(note['created_at']) }}</div>
+      <div class="text-gray-500 ml-2 italic" v-if="$route.meta.requiresAuth">
+        {{ note['display'] ? '显示' : '隐藏' }}
+      </div>
     </div>
     <div class="divide-y divide-solid divide-slate-200">
       <div></div>
