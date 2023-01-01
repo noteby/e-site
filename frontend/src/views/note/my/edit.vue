@@ -27,7 +27,14 @@
     <Editor ref="editorRef"/>
 
     <el-form-item size="default">
-      <el-button :loading='loading' @click="onSubmit">保 存</el-button>
+      <el-button class="e-button-delete"
+                 @click="noteStore.toDeleteNote($router, $route.params.noteId)"
+                 v-if="isUpdate" plain>
+        删 除
+      </el-button>
+      <el-button @click="onSubmit" :loading='loading' plain>
+        保 存
+      </el-button>
     </el-form-item>
 
   </el-form>
@@ -42,6 +49,12 @@
     font-size: 14px;
   }
 }
+
+.e-button-delete {
+  @apply text-gray-300
+  hover:text-red-500
+  hover:border-red-500
+}
 </style>
 
 <script setup>
@@ -49,7 +62,9 @@ import {reactive, ref} from "vue"
 import {useRouter} from "vue-router"
 import Editor from './editor.vue'
 import {createNote, updateNote, getNoteForOwn} from "~/api/note.js"
+import {useNoteStore} from "~/store/note.js"
 
+const noteStore = useNoteStore()
 const router = useRouter()
 const form = reactive({
   title: '',
@@ -61,16 +76,16 @@ const rules = {
     {required: true, trigger: 'blur', message: '标题必填'},
   ]
 }
-const formRef = ref(null)
 const editorRef = ref(null)
+const isUpdate = ref(false)
+const formRef = ref(null)
 const loading = ref(false)
 
-let isUpdate = false
 if (router.currentRoute.value.name === 'EditNote') {
-  isUpdate = true
+  isUpdate.value = true
 }
 
-if (isUpdate) {
+if (isUpdate.value) {
   getNoteForOwn(router.currentRoute.value.params.noteId)
       .then((res) => {
         if (res['code']) {
@@ -87,7 +102,7 @@ if (isUpdate) {
 
 function submitReq() {
   form.content = editorRef.value.editor.getHTML()
-  if (!isUpdate) {
+  if (!isUpdate.value) {
     return createNote(form.title, form.display, form.content)
   }
   return updateNote(

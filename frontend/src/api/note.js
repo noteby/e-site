@@ -11,6 +11,10 @@ export function updateNote(noteId, title, display, content) {
     return axios.put('/v1/own/note/' + noteId, {title, display, content})
 }
 
+export function deleteNote(noteId) {
+    return axios.delete('/v1/own/note/' + noteId)
+}
+
 export function getNoteForOwn(noteId) {
     return axios.get('/v1/own/note/' + noteId)
 }

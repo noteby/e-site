@@ -9,6 +9,12 @@
         >编辑
         </router-link>
       </div>
+      <div class="mr-2">
+        <a @click="noteStore.toDeleteNote($router, $route.params.noteId)"
+           class="underline cursor-pointer"
+        >删除
+        </a>
+      </div>
     </div>
     <div class="flex text-xs">
       <div class="text-gray-300">{{ formatDateStr(note['created_at']) }}</div>
@@ -30,9 +36,11 @@
 import {ref, watch} from "vue"
 import {useRoute, useRouter} from "vue-router"
 import Editor from './my/editor.vue'
-import {getNote, getNoteForOwn} from "~/api/note.js"
+import {getNote, getNoteForOwn, deleteNote} from "~/api/note.js"
 import {formatDateStr} from "~/composables/utils"
+import {useNoteStore} from "~/store/note.js"
 
+const noteStore = useNoteStore()
 const route = useRoute()
 const router = useRouter()
 const note = ref({})
