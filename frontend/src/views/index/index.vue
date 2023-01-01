@@ -8,23 +8,24 @@
 
     <el-container>
       <el-main>
-        <div class="sticky top-0 pt-6 bg-white z-10">
-          <Breadcrumb/>
-          <el-divider/>
-        </div>
-
-        <div class="e-main-1 flex flex-col justify-between">
-          <div>
-            <router-view></router-view>
+        <div class="h-full flex flex-col">
+          <div class="sticky top-0 pt-6 bg-white z-10">
+            <Breadcrumb/>
+            <el-divider/>
           </div>
 
-          <div class="leading-none text-center">
-            <span class="text-xs text-slate-300">
-              Copyright &copy; 2023 Formeta
-            </span>
+          <div class="grow flex flex-col justify-between">
+            <div>
+              <router-view></router-view>
+            </div>
+
+            <div class="leading-none text-center">
+              <span class="text-xs text-slate-300">
+                Copyright &copy; 2023 Formeta
+              </span>
+            </div>
           </div>
         </div>
-
       </el-main>
 
     </el-container>
@@ -38,10 +39,6 @@ import Breadcrumb from '~/views/index/breadcrumb.vue'
 </script>
 
 <style scoped>
-.e-main-1 {
-  height: calc(100vh - 87px);
-}
-
 .el-aside {
   @apply w-24
 }
