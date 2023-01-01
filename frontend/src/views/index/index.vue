@@ -1,8 +1,11 @@
 <template>
   <el-container class="h-screen">
-    <el-aside class="relative">
-      <div class="absolute inset-x-0 top-0">
-        <Menu/>
+    <el-aside id="e-aside">
+      <div class="h-full flex flex-col">
+        <div class="sticky top-0 py-16 bg-white z-10"></div>
+        <div class="grow">
+          <Menu/>
+        </div>
       </div>
     </el-aside>
 
@@ -10,7 +13,17 @@
       <el-main>
         <div class="h-full flex flex-col">
           <div class="sticky top-0 pt-6 bg-white z-10">
-            <Breadcrumb/>
+            <div class="flex justify-between">
+              <Breadcrumb/>
+
+              <div class="leading-none">
+                <el-icon @click="toCollapse">
+                  <Expand v-if="isCollapse"/>
+                  <Fold v-else/>
+                </el-icon>
+              </div>
+            </div>
+
             <el-divider/>
           </div>
 
@@ -29,9 +42,21 @@
 </template>
 
 <script setup>
+import {ref} from 'vue'
+import {Expand, Fold} from '@element-plus/icons-vue'
 import Menu from '~/views/index/menu.vue'
 import Breadcrumb from '~/views/index/breadcrumb.vue'
 import Copyright from '~/views/copyright.vue'
+
+const isCollapse = ref(false)
+
+function toCollapse() {
+  isCollapse.value = !isCollapse.value
+
+  let aside = document.getElementById('e-aside')
+  aside.style.display = isCollapse.value ? 'none' : 'block'
+}
+
 
 </script>
 

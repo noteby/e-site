@@ -39,10 +39,6 @@ const userStore = useUserStore()
 </script>
 
 <style scoped>
-.el-menu {
-  @apply mt-20
-}
-
 .el-menu-item {
   @apply text-sm
 }
