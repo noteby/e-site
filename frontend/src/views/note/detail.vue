@@ -1,14 +1,16 @@
 <template>
   <div class="text-xl">{{ note['title'] }}</div>
   <div class="mt-1 mb-3">
-    <div class="flex justify-between text-xs" v-if="$route.meta.requiresAuth">
-      <div class="text-gray-500 italic">{{ note['display'] ? '显示' : '隐藏' }}</div>
-      <div>
+    <div class="flex text-xs" v-if="$route.meta.requiresAuth">
+      <div class="mr-2">
         <router-link
             :to="{name:'EditNote',params: {noteId: $route.params.noteId}}"
             class="underline"
         >编辑
         </router-link>
+      </div>
+      <div class="mr-2">
+        <span class="text-gray-500 italic">{{ note['display'] ? '显示' : '隐藏' }}</span>
       </div>
     </div>
     <div class="text-xs text-gray-500">{{ note['created_at'] }}</div>
