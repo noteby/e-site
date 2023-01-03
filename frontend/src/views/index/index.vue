@@ -17,10 +17,15 @@
               <Breadcrumb/>
 
               <div class="leading-none">
-                <el-icon @click="toCollapse">
-                  <Expand v-if="isCollapse"/>
-                  <Fold v-else/>
-                </el-icon>
+                <div v-if="isWideScreen">
+                  <el-icon @click="toCollapse">
+                    <Expand v-if="isCollapse"/>
+                    <Fold v-else/>
+                  </el-icon>
+                </div>
+                <div v-else>
+                  <DropdownMenu/>
+                </div>
               </div>
             </div>
 
@@ -42,20 +47,41 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
 import {Expand, Fold} from '@element-plus/icons-vue'
 import Menu from '~/views/index/menu.vue'
 import Breadcrumb from '~/views/index/breadcrumb.vue'
+import DropdownMenu from '~/views/index/dropdownMenu.vue'
 import Copyright from '~/views/copyright.vue'
 
 const isCollapse = ref(false)
+const isWideScreen = ref(true)
+
+function displayAside(i) {
+  let aside = document.getElementById('e-aside')
+  aside.style.display = i ? 'block' : 'none'
+}
 
 function toCollapse() {
   isCollapse.value = !isCollapse.value
-
-  let aside = document.getElementById('e-aside')
-  aside.style.display = isCollapse.value ? 'none' : 'block'
+  displayAside(!isCollapse.value)
 }
+
+function onResize() {
+  if (document.body.clientWidth > 640) {
+    isWideScreen.value = true
+    displayAside(true)
+  } else {
+    isWideScreen.value = false
+    displayAside(false)
+  }
+}
+
+onMounted(() => {
+  onResize()
+})
+
+window.addEventListener('resize', onResize)
 
 
 </script>
