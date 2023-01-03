@@ -1,8 +1,8 @@
 <template>
   <div v-for="(note, index) in noteList" :key="note.id">
     <div>
-      <router-link
-          :to="{name: linkName, params: {noteId: note['note_id']}}"
+      <router-link class="block"
+                   :to="{name: linkName, params: {noteId: note['note_id']}}"
       >{{ note['title'] }}
       </router-link>
     </div>
