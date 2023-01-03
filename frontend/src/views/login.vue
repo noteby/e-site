@@ -21,9 +21,9 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button class="mx-auto w-60"
-                     :loading='loading'
-                     @click="onSubmit">
+          <el-button
+              :loading='loading'
+              @click="onSubmit">
             登 录
           </el-button>
         </el-form-item>
@@ -37,6 +37,12 @@
 <style scoped>
 .e-form {
   @apply w-60 mt-52 mb-10
+}
+
+.el-button {
+  @apply mx-auto w-60
+  focus:border-blue-400
+  focus-visible:outline-none
 }
 </style>
 
