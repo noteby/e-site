@@ -26,8 +26,8 @@ let props = defineProps({
 const editor = useEditor({
   editorProps: {
     attributes: {
-      class: 'prose',
-      // spellcheck: false,
+      class: 'prose font-serif',
+      spellcheck: false,
     }
   },
   extensions: [
@@ -92,6 +92,12 @@ defineExpose({
   color: #adb5bd;
   pointer-events: none;
   height: 0;
+}
+
+.ProseMirror {
+  pre {
+    @apply whitespace-pre  #{!important}
+  }
 }
 
 .e-editor {
