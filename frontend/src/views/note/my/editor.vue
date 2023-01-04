@@ -26,7 +26,7 @@ let props = defineProps({
 const editor = useEditor({
   editorProps: {
     attributes: {
-      class: 'prose font-serif',
+      class: 'prose',
       spellcheck: false,
     }
   },
@@ -75,8 +75,7 @@ defineExpose({
 
 <style lang="scss">
 .ProseMirror {
-  @apply
-  max-w-none
+  @apply max-w-none
   px-3 py-2
   outline-none
 }
@@ -86,17 +85,18 @@ defineExpose({
   focus:border-blue-400
 }
 
-.ProseMirror p.is-editor-empty:first-child::before {
-  content: attr(data-placeholder);
-  float: left;
-  color: #adb5bd;
-  pointer-events: none;
-  height: 0;
-}
 
 .ProseMirror {
+  p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #adb5bd;
+    pointer-events: none;
+    height: 0;
+  }
+
   pre {
-    @apply whitespace-pre  #{!important}
+    @apply whitespace-pre rounded  #{!important}
   }
 }
 
