@@ -1,30 +1,32 @@
 <template>
-  <div class="text-xl">{{ note['title'] }}</div>
-  <div class="mt-1 mb-3">
-    <div class="flex text-xs" v-if="$route.meta.requiresAuth">
-      <div class="mr-2">
-        <router-link
-            :to="{name:'EditNote',params: {noteId: $route.params.noteId}}"
-            class="underline"
-        >编辑
-        </router-link>
+  <div class="px-3">
+    <div class="text-xl">{{ note['title'] }}</div>
+    <div class="mt-1 mb-3">
+      <div class="flex text-xs" v-if="$route.meta.requiresAuth">
+        <div class="mr-2">
+          <router-link
+              :to="{name:'EditNote',params: {noteId: $route.params.noteId}}"
+              class="underline"
+          >编辑
+          </router-link>
+        </div>
+        <div class="mr-2">
+          <a @click="noteStore.toDeleteNote($router, $route.params.noteId)"
+             class="underline cursor-pointer"
+          >删除
+          </a>
+        </div>
       </div>
-      <div class="mr-2">
-        <a @click="noteStore.toDeleteNote($router, $route.params.noteId)"
-           class="underline cursor-pointer"
-        >删除
-        </a>
+      <div class="flex text-xs">
+        <div class="text-gray-300">{{ formatDateStr(note['created_at']) }}</div>
+        <div class="text-gray-500 ml-2 italic" v-if="$route.meta.requiresAuth">
+          {{ note['display'] ? '显示' : '隐藏' }}
+        </div>
       </div>
-    </div>
-    <div class="flex text-xs">
-      <div class="text-gray-300">{{ formatDateStr(note['created_at']) }}</div>
-      <div class="text-gray-500 ml-2 italic" v-if="$route.meta.requiresAuth">
-        {{ note['display'] ? '显示' : '隐藏' }}
+      <div class="divide-y divide-solid divide-slate-200">
+        <div></div>
+        <div></div>
       </div>
-    </div>
-    <div class="divide-y divide-solid divide-slate-200">
-      <div></div>
-      <div></div>
     </div>
   </div>
   <div>
