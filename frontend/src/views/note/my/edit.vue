@@ -26,28 +26,29 @@
 
     <Editor ref="editorRef"/>
 
-    <el-form-item size="default">
+    <el-form-item size="default" class="e-buttons">
       <el-button class="e-button-delete"
-                 @click="noteStore.toDeleteNote($router, $route.params.noteId)"
-                 v-if="isUpdate" plain>
-        删 除
+                 @click="deleteDialogRef.deleteDialog=true" v-if="isUpdate" plain>删 除
       </el-button>
-      <el-button @click="onSubmit" :loading='loading' plain>
-        保 存
-      </el-button>
+      <el-button @click="onSubmit" :loading='loading' plain>保 存</el-button>
+
+      <DeleteDialog ref="deleteDialogRef"/>
     </el-form-item>
 
   </el-form>
-
 </template>
 
-<style lang="scss">
-.e-editor {
+<style lang="scss" scoped>
+.e-editor > :deep(.ProseMirror) {
   margin-bottom: 18px;
 
   p {
     font-size: 14px;
   }
+}
+
+.e-buttons > :deep(div) {
+  @apply justify-end
 }
 
 .e-button-delete {
@@ -58,9 +59,11 @@
 </style>
 
 <script setup>
+import DeleteDialog from './deleteDialog.vue'
+import Editor from './editor.vue'
+//
 import {reactive, ref} from "vue"
 import {useRouter} from "vue-router"
-import Editor from './editor.vue'
 import {createNote, updateNote, getNoteForOwn} from "~/api/note.js"
 import {useNoteStore} from "~/store/note.js"
 
@@ -77,9 +80,11 @@ const rules = {
   ]
 }
 const editorRef = ref(null)
+const deleteDialogRef = ref(null)
 const isUpdate = ref(false)
 const formRef = ref(null)
 const loading = ref(false)
+const deleteDialog = ref(false)
 
 if (router.currentRoute.value.name === 'EditNote') {
   isUpdate.value = true

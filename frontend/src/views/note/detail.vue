@@ -11,10 +11,11 @@
           </router-link>
         </div>
         <div class="mr-2">
-          <a @click="noteStore.toDeleteNote($router, $route.params.noteId)"
-             class="underline cursor-pointer"
-          >删除
-          </a>
+
+          <a class="underline cursor-pointer"
+             @click="deleteDialogRef.deleteDialog=true">删除</a>
+
+          <DeleteDialog ref="deleteDialogRef"/>
         </div>
       </div>
       <div class="flex text-xs">
@@ -35,18 +36,20 @@
 </template>
 
 <script setup>
+import DeleteDialog from './my/deleteDialog.vue'
+import Editor from './my/editor.vue'
+//
 import {ref, watch} from "vue"
 import {useRoute, useRouter} from "vue-router"
-import Editor from './my/editor.vue'
-import {getNote, getNoteForOwn, deleteNote} from "~/api/note.js"
+import {getNote, getNoteForOwn} from "~/api/note.js"
 import {formatDateStr} from "~/composables/utils"
-import {useNoteStore} from "~/store/note.js"
 
-const noteStore = useNoteStore()
 const route = useRoute()
 const router = useRouter()
 const note = ref({})
 const editorRef = ref(null)
+const deleteDialogRef = ref(null)
+
 
 function getNoteReq() {
   let func = getNote
