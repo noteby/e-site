@@ -26,7 +26,7 @@ let props = defineProps({
 const editor = useEditor({
   editorProps: {
     attributes: {
-      class: 'prose',
+      class: 'prose prose-sm sm:prose',
       spellcheck: false,
     }
   },
