@@ -96,7 +96,15 @@ defineExpose({
   }
 
   pre {
-    @apply whitespace-pre rounded  #{!important}
+    @apply rounded
+    text-black
+    bg-yellow-50
+    whitespace-pre   #{!important}
+  }
+
+  ::-webkit-scrollbar {
+    /*滚动条整体样式，定义滚动区域大小*/
+    @apply w-0.5 h-0.5
   }
 }
 

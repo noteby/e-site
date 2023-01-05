@@ -9,7 +9,7 @@
         min-w-[300px]
     }
 
-    pre {
+    pre, code {
         font-family: "Courier New", monospace;
     }
 
@@ -20,7 +20,7 @@
 
     ::-webkit-scrollbar-thumb {
         /*滚动条滑块*/
-        @apply rounded bg-gray-400
+        @apply rounded bg-gray-300
     }
 
     ::-webkit-scrollbar-thumb:hover {
