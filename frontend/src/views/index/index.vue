@@ -93,6 +93,7 @@ window.addEventListener('resize', onResize)
 
 .el-main {
   @apply py-0
+  px-2.5 sm:px-5
 }
 
 </style>
