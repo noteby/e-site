@@ -6,6 +6,7 @@
 @layer base {
     html, body {
         @apply h-screen font-serif
+        min-w-[300px]
     }
 
     pre {
