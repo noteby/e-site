@@ -70,7 +70,7 @@ function toCollapse() {
 function onResize() {
   if (document.body.clientWidth > 640) {
     isWideScreen.value = true
-    displayAside(true)
+    displayAside(!isCollapse.value)
   } else {
     isWideScreen.value = false
     displayAside(false)
