@@ -1,44 +1,41 @@
 <template>
   <el-container class="h-screen">
     <el-aside id="e-aside">
-      <div class="h-full flex flex-col">
-        <div class="sticky top-0 py-16 bg-white z-10"></div>
-        <div class="grow">
-          <Menu/>
-        </div>
-      </div>
+      <div class="sticky top-0 py-16 bg-white z-10"></div>
+      <Menu/>
     </el-aside>
 
     <el-container>
+      <el-header>
+        <div class="pt-5 flex justify-between">
+          <Breadcrumb/>
+
+          <div class="leading-none">
+            <div v-if="isWideScreen">
+              <el-icon @click="toCollapse">
+                <Expand v-if="isCollapse"/>
+                <Fold v-else/>
+              </el-icon>
+            </div>
+            <div v-else>
+              <DropdownMenu/>
+            </div>
+          </div>
+        </div>
+
+        <div class="divide-y-2 divide-solid divide-slate-200 pt-3">
+          <div></div>
+          <div></div>
+        </div>
+
+      </el-header>
+
       <el-main>
-        <div class="h-full flex flex-col">
-          <div class="sticky top-0 pt-6 bg-white z-10">
-            <div class="flex justify-between">
-              <Breadcrumb/>
-
-              <div class="leading-none">
-                <div v-if="isWideScreen">
-                  <el-icon @click="toCollapse">
-                    <Expand v-if="isCollapse"/>
-                    <Fold v-else/>
-                  </el-icon>
-                </div>
-                <div v-else>
-                  <DropdownMenu/>
-                </div>
-              </div>
-            </div>
-
-            <el-divider/>
+        <div class="h-full flex flex-col justify-between">
+          <div>
+            <router-view></router-view>
           </div>
-
-          <div class="grow flex flex-col justify-between">
-            <div>
-              <router-view></router-view>
-            </div>
-
-            <Copyright/>
-          </div>
+          <Copyright/>
         </div>
       </el-main>
 
@@ -87,13 +84,20 @@ window.addEventListener('resize', onResize)
 </script>
 
 <style scoped>
-.el-aside {
-  @apply w-24
+.el-header, .el-main {
+  @apply px-2.5 sm:px-5
+}
+
+.el-header {
+  @apply h-[70px]
 }
 
 .el-main {
   @apply py-0
-  px-2.5 sm:px-5
+}
+
+.el-aside {
+  @apply w-24
 }
 
 </style>
