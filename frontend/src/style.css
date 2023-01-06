@@ -10,7 +10,8 @@
     }
 
     pre, code {
-        font-family: "Courier New", monospace;
+        /*font-family: "Courier New", monospace;*/
+        font-family: consolas, Courier, "MS Courier New", monospace;
     }
 
     ::-webkit-scrollbar {

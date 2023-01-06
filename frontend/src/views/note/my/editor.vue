@@ -97,7 +97,7 @@ defineExpose({
 
   pre {
     @apply rounded mt-5
-    text-black
+    text-gray-500
     bg-yellow-50
     whitespace-pre   #{!important}
   }
