@@ -1,5 +1,4 @@
 # Python
-__pycache__/
 env/
 
 
@@ -8,9 +7,4 @@ env/
 
 
 # Project
-**/store/*
-!**/store/.gitkeep
-!**/src/store/*
-.toml
 tests/
-tmp/
