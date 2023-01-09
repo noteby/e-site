@@ -1,0 +1,38 @@
+version: '3.8'
+
+networks:
+  e-site:
+    ipam:
+      config:
+        - subnet: 10.10.0.0/16
+          gateway: 10.10.0.1
+
+services:
+  backend:
+    container_name: e-site-backend
+    env_file:
+      - .docker.env
+    build:
+      context: backend
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      e-site:
+        ipv4_address: 10.10.1.1
+    ports: # local:container
+      - "10100:10100"
+
+  frontend:
+    container_name: e-site-frontend
+    env_file:
+      - .docker.env
+    build:
+      context: frontend
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./frontend/nginx/conf.d/:/etc/nginx/conf.d/:ro
+    networks:
+      e-site:
+        ipv4_address: 10.10.2.1
+    ports:
+      - "10200:80"
