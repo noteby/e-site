@@ -15,4 +15,5 @@ pip install -r requirements.txt
 # Run
 inputHint "Run"
 
-cd .. && uvicorn backend.main:api --host 0.0.0.0 --port 10100
+cd ..
+uvicorn backend.main:api --host 0.0.0.0 --port 10100 --no-access-log
