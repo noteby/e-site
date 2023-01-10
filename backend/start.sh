@@ -5,14 +5,14 @@ inputHint() {
   echo "[$(date "+%Y-%m-%d %H:%M:%S")] $1"
   echo "#########"
 }
-
-# Install packages
-inputHint "Install packages by pip"
-
-pip install -U pip
-pip install -r requirements.txt
-
-# Run
+#
+## Install packages
+#inputHint "Install packages by pip"
+#
+#pip install -U pip
+#pip install -r requirements.txt
+#
+## Run
 inputHint "Run"
 
 cd ..
