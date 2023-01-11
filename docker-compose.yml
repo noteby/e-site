@@ -20,7 +20,7 @@ services:
     networks:
       e-site:
         ipv4_address: 10.10.1.1
-    ports: # host:container
+    ports: # host:container(10100-10199)
       - "10100:10100"
 
   frontend:
@@ -35,7 +35,7 @@ services:
     networks:
       e-site:
         ipv4_address: 10.10.2.1
-    ports: # host:container
+    ports: # host:container(10200-10299)
       - "${FRONTEND_WEB_PORT}:80"
     depends_on:
       - backend
