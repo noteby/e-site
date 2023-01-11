@@ -1,6 +1,8 @@
 FROM nginx:1.23.3
 
-WORKDIR /var/www/e-site/frontend
+ARG FRONTEND_DIR
+
+WORKDIR ${FRONTEND_DIR}
 
 COPY dist dist
 

@@ -2,7 +2,7 @@ server {
     listen                  80;
     server_name             127.0.0.1;
 
-    root                    /var/www/e-site/frontend/dist;
+    root                    /var/www/frontend/dist;
 
     access_log              /var/log/nginx/access.log combined buffer=512k flush=1m;
     error_log               /var/log/nginx/error.log warn;
