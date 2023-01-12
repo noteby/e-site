@@ -1,29 +1,33 @@
 <template>
   <el-container class="h-screen">
-    <el-aside id="e-aside">
-      <div class="sticky top-0 py-16 bg-white z-10"></div>
-      <Menu/>
-    </el-aside>
+
+    <div v-if="!isCollapse">
+      <div v-if="isWideScreen">
+        <el-aside>
+          <div class="sticky top-0 py-16 bg-white z-10"></div>
+          <Menu/>
+        </el-aside>
+      </div>
+      <div v-else>
+        <div class="absolute h-screen left-0 bg-white z-10 overflow-auto">
+          <Menu class="py-16"/>
+        </div>
+      </div>
+    </div>
 
     <el-container>
       <el-header>
-        <div class="pt-5 flex justify-between">
+        <div class="pt-5 flex items-center">
+          <el-icon @click="toCollapse" color="#6b7280" size="20" class="mr-3">
+            <Expand v-if="isCollapse"/>
+            <Fold v-else/>
+          </el-icon>
+
           <Breadcrumb/>
 
-          <div class="leading-none">
-            <div v-if="isWideScreen">
-              <el-icon @click="toCollapse">
-                <Expand v-if="isCollapse"/>
-                <Fold v-else/>
-              </el-icon>
-            </div>
-            <div v-else>
-              <DropdownMenu/>
-            </div>
-          </div>
         </div>
 
-        <div class="divide-y-2 divide-solid divide-slate-200 pt-3">
+        <div class="divide-y-[1px] divide-solid divide-slate-200 pt-3">
           <div></div>
           <div></div>
         </div>
@@ -31,6 +35,11 @@
       </el-header>
 
       <el-main>
+        <div class="absolute inset-0 backdrop-opacity-10 bg-white/50 z-[5]"
+             v-if="!isCollapse && !isWideScreen"
+             @click="onMaskLayer"
+        ></div>
+
         <div class="h-full flex flex-col justify-between">
           <div>
             <router-view></router-view>
@@ -48,30 +57,29 @@ import {ref, onMounted} from 'vue'
 import {Expand, Fold} from '@element-plus/icons-vue'
 import Menu from '~/views/index/menu.vue'
 import Breadcrumb from '~/views/index/breadcrumb.vue'
-import DropdownMenu from '~/views/index/dropdownMenu.vue'
+// import DropdownMenu from '~/views/index/dropdownMenu.vue'
 import Copyright from '~/views/copyright.vue'
 
 const isCollapse = ref(false)
 const isWideScreen = ref(true)
 
-function displayAside(i) {
-  let aside = document.getElementById('e-aside')
-  aside.style.display = i ? 'block' : 'none'
-}
-
 function toCollapse() {
   isCollapse.value = !isCollapse.value
-  displayAside(!isCollapse.value)
 }
 
 function onResize() {
   if (document.body.clientWidth > 640) {
     isWideScreen.value = true
-    displayAside(!isCollapse.value)
+    isCollapse.value = false
   } else {
     isWideScreen.value = false
-    displayAside(false)
+    isCollapse.value = true
   }
+}
+
+
+function onMaskLayer() {
+  isCollapse.value = true
 }
 
 onMounted(() => {
