@@ -1,18 +1,14 @@
 <template>
   <el-container class="h-screen">
 
-    <div v-if="!isCollapse">
-      <div v-if="isWideScreen">
-        <el-aside>
-          <div class="sticky top-0 py-16 bg-white z-10"></div>
-          <Menu/>
-        </el-aside>
-      </div>
-      <div v-else>
-        <div class="absolute h-screen left-0 bg-white z-10 overflow-auto">
-          <Menu class="py-16"/>
-        </div>
-      </div>
+    <el-aside class="drop-shadow-md"
+              v-if="!isCollapse && isWideScreen">
+      <Menu class="py-20 h-screen overflow-auto"/>
+    </el-aside>
+
+    <div class="absolute left-0 bg-white z-10 drop-shadow-md"
+         v-if="!isCollapse && !isWideScreen">
+      <Menu class="py-16 h-screen overflow-auto"/>
     </div>
 
     <el-container>
@@ -27,7 +23,7 @@
 
         </div>
 
-        <div class="divide-y-[1px] divide-solid divide-slate-200 pt-3">
+        <div class="divide-y-[1px] divide-solid divide-slate-200 pt-3 drop-shadow">
           <div></div>
           <div></div>
         </div>
