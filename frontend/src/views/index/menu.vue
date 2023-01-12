@@ -39,6 +39,10 @@ const userStore = useUserStore()
 </script>
 
 <style scoped>
+.el-menu {
+  @apply border-none
+}
+
 .el-menu-item {
   @apply text-sm
 }
