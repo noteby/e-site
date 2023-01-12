@@ -37,5 +37,6 @@ services:
         ipv4_address: 10.10.2.1
     ports: # host:container(10200-10299)
       - "${FRONTEND_WEB_PORT}:80"
+      - "443:443"
     depends_on:
       - backend
