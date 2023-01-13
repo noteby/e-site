@@ -16,7 +16,8 @@ SECRET_KEY = settings.auth.secret_key
 #
 ALGORITHM = 'HS256'
 #
-DEFAULT_EXPIRE_MINUTES = 60 * 24 * 1
+# DEFAULT_EXPIRE_MINUTES = 60 * 24 * 3
+DEFAULT_EXPIRE_MINUTES = settings.auth.expire_minutes
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl='/v1/auth/token',

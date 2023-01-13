@@ -14,6 +14,7 @@ class _ApiDoc(BaseModel):
 class _Auth(BaseModel):
     # $ openssl rand -hex 32
     secret_key: str
+    expire_minutes: int
 
 
 class _Database(BaseModel):
