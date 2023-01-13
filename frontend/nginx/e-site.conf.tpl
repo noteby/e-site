@@ -21,7 +21,8 @@ server {
     gzip_vary       on;
     gzip_proxied    any;
     gzip_comp_level 6;
-    gzip_types      text/plain text/css text/xml application/json application/javascript application/rss+xml application/atom+xml image/svg+xml;
+    gzip_min_length 1024;
+    gzip_types      text/plain text/css text/xml application/json application/javascript;
 }
 
 ############################################################2
@@ -30,6 +31,9 @@ server {
     server_name               formeta.space;
 
     root                      /var/www/frontend/dist;
+
+    access_log                /var/log/nginx/access.log combined buffer=512k flush=1m;
+    error_log                 /var/log/nginx/error.log warn;
 
     ssl_certificate           /etc/nginx/conf.d/cert/formeta.space.pem;
     ssl_certificate_key       /etc/nginx/conf.d/cert/formeta.space.key;
@@ -51,7 +55,8 @@ server {
     gzip_vary       on;
     gzip_proxied    any;
     gzip_comp_level 6;
-    gzip_types      text/plain text/css text/xml application/json application/javascript application/rss+xml application/atom+xml image/svg+xml;
+    gzip_min_length 1024;
+    gzip_types      text/plain text/css text/xml application/json application/javascript;
 }
 
 server {
