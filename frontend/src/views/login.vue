@@ -42,7 +42,7 @@
 .el-button {
   @apply mx-auto w-60
   focus:border-blue-400
-  focus-visible:outline-none
+  focus-visible:outline-0
 }
 </style>
 
