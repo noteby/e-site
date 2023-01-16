@@ -13,5 +13,5 @@ node_modules
 .idea
 .DS_Store
 
-nginx/conf.d/*
-!nginx/conf.d/.gitkeep
+caddy/*
+!caddy/*.tpl
