@@ -10,7 +10,7 @@ import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 export default defineConfig(({mode, command}) => {
     const env = loadEnv(mode, '.')
     return {
-        base: './',
+        // base: './',
         build: {
             chunkSizeWarningLimit: 1000
         },
