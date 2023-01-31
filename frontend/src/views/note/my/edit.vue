@@ -39,7 +39,7 @@
 </template>
 
 <style lang="scss" scoped>
-.e-editor > :deep(.ProseMirror) {
+.e-editor {
   margin-bottom: 18px;
 
   p {
