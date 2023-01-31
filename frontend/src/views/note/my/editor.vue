@@ -53,6 +53,11 @@
         </el-dropdown>
       </div>
 
+      <div class="e-shortcut-image">
+        <button type="button" @click="openChooseImageDialog()">
+          图片
+        </button>
+      </div>
     </div>
 
     <editor-content class="e-content" :editor="editor"/>
@@ -109,7 +114,7 @@ const editor = useEditor({
     TableRow,
     TaskItem.configure({
       nested: true,
-    }),// https://tiptap.dev/api/nodes/task-item
+    }), // https://tiptap.dev/api/nodes/task-item
     TaskList,  // https://tiptap.dev/api/nodes/task-list
     // Mark
     Link, // https://tiptap.dev/api/marks/link
@@ -124,6 +129,41 @@ const editor = useEditor({
   editable: !props.notEditable,
 })
 
+function openChooseImageDialog() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = (event) => {
+    parseImage(event)
+  };
+  input.click();
+}
+
+async function parseImage(event) {
+  const file = event.target.files[0]
+  setImage(await imageToBase64(file))
+}
+
+function imageToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}
+
+function setImage(url) {
+  // const url = window.prompt('URL')
+  if (url) {
+    editor.value.chain().focus().setImage({src: url}).run()
+  }
+}
+
 defineExpose({
   editor
 })
@@ -131,6 +171,24 @@ defineExpose({
 
 
 <style lang="scss">
+.e-editor {
+  .e-toolbar {
+    @apply flex
+    px-1 pb-1
+    text-sm text-gray-500
+  }
+
+  .e-shortcut-table {
+    .el-dropdown-link {
+      @apply text-sm text-gray-500
+    }
+  }
+
+  .e-shortcut-image {
+    @apply ml-2
+  }
+}
+
 .ProseMirror {
   @apply max-w-none
   px-3 py-2
