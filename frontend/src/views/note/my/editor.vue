@@ -6,46 +6,60 @@
           <span class="el-dropdown-link">表格</span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item
-                  @click="editor.chain().focus().insertTable(
-                            { rows: 3, cols: 4, withHeaderRow: true }
-                          ).run()">
+              <el-dropdown-item @click="editor.chain().focus().insertTable(
+                                        {rows:3,cols:4,withHeaderRow:true}
+                                        ).run()">
                 插入表格
               </el-dropdown-item>
-              <el-dropdown-item type="button" @click="editor.chain().focus().deleteTable().run()">
+              <el-dropdown-item @click="editor.chain().focus().deleteTable().run()"
+                                :disabled="!editor.can().deleteTable()">
                 删除表格
               </el-dropdown-item>
-              <el-dropdown-item @click="editor.chain().focus().toggleHeaderColumn().run()" divided>
+              <el-dropdown-item @click="editor.chain().focus().toggleHeaderColumn().run()"
+                                :disabled="!editor.can().toggleHeaderColumn()"
+                                divided>
                 切换为标题列
               </el-dropdown-item>
-              <el-dropdown-item @click="editor.chain().focus().toggleHeaderRow().run()">
+              <el-dropdown-item @click="editor.chain().focus().toggleHeaderRow().run()"
+                                :disabled="!editor.can().toggleHeaderRow()">
                 切换为标题行
               </el-dropdown-item>
-              <el-dropdown-item @click="editor.chain().focus().toggleHeaderCell().run()">
+              <el-dropdown-item @click="editor.chain().focus().toggleHeaderCell().run()"
+                                :disabled="!editor.can().toggleHeaderCell()">
                 切换为标题单元格
               </el-dropdown-item>
-              <el-dropdown-item @click="editor.chain().focus().addColumnBefore().run()" divided>
+              <el-dropdown-item @click="editor.chain().focus().addColumnBefore().run()"
+                                :disabled="!editor.can().addColumnBefore()"
+                                divided>
                 左边加一列
               </el-dropdown-item>
-              <el-dropdown-item @click="editor.chain().focus().addColumnAfter().run()">
+              <el-dropdown-item @click="editor.chain().focus().addColumnAfter().run()"
+                                :disabled="!editor.can().addColumnAfter()">
                 右边加一列
               </el-dropdown-item>
-              <el-dropdown-item @click="editor.chain().focus().deleteColumn().run()">
+              <el-dropdown-item @click="editor.chain().focus().deleteColumn().run()"
+                                :disabled="!editor.can().deleteColumn()">
                 删除该列
               </el-dropdown-item>
-              <el-dropdown-item @click="editor.chain().focus().addRowBefore().run()" divided>
+              <el-dropdown-item @click="editor.chain().focus().addRowBefore().run()"
+                                :disabled="!editor.can().addRowBefore()" divided>
                 上边加一行
               </el-dropdown-item>
-              <el-dropdown-item @click="editor.chain().focus().addRowAfter().run()">
+              <el-dropdown-item @click="editor.chain().focus().addRowAfter().run()"
+                                :disabled="!editor.can().addRowAfter()">
                 下边加一行
               </el-dropdown-item>
-              <el-dropdown-item @click="editor.chain().focus().deleteRow().run()">
+              <el-dropdown-item @click="editor.chain().focus().deleteRow().run()"
+                                :disabled="!editor.can().deleteRow()">
                 删除该行
               </el-dropdown-item>
-              <el-dropdown-item @click="editor.chain().focus().mergeOrSplit().run()" divided>
+              <el-dropdown-item @click="editor.chain().focus().mergeOrSplit().run()"
+                                :disabled="!editor.can().mergeOrSplit()"
+                                divided>
                 合并或拆分单元格
               </el-dropdown-item>
-              <el-dropdown-item @click="editor.chain().focus().fixTables().run()" divided>
+              <el-dropdown-item @click="editor.chain().focus().fixTables().run()"
+                                :disabled="!editor.can().fixTables()" divided>
                 修复所有表格
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -65,7 +79,7 @@
 </template>
 
 <script setup>
-import {EditorContent, useEditor} from "@tiptap/vue-3"
+import {Editor, EditorContent} from "@tiptap/vue-3"
 import StarterKit from "@tiptap/starter-kit"
 import {Image} from "@tiptap/extension-image"
 import {Link} from "@tiptap/extension-link"
@@ -85,7 +99,7 @@ let props = defineProps({
   }
 })
 
-const editor = useEditor({
+const editor = new Editor({
   editorProps: {
     attributes: {
       class: 'prose prose-sm sm:prose',
@@ -97,7 +111,7 @@ const editor = useEditor({
     Typography, // https://tiptap.dev/api/extensions/typography
     Placeholder.configure({
       placeholder: '请输入正文'
-    }),// https://tiptap.dev/api/extensions/placeholder
+    }), // https://tiptap.dev/api/extensions/placeholder
     // Node
     Image.configure({
       // inline: true,
@@ -160,7 +174,7 @@ function imageToBase64(file) {
 function setImage(url) {
   // const url = window.prompt('URL')
   if (url) {
-    editor.value.chain().focus().setImage({src: url}).run()
+    editor.chain().focus().setImage({src: url}).run()
   }
 }
 
