@@ -3,7 +3,9 @@
     <div class="e-toolbar" v-if="!props.notEditable">
       <div class="e-shortcut-table">
         <el-dropdown trigger="click" :hide-on-click="false">
-          <span class="el-dropdown-link">表格</span>
+          <button type="button" class="el-dropdown-link"
+                  :disabled="displaySourceCode">表格
+          </button>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item @click="editor.chain().focus().insertTable(
@@ -68,17 +70,23 @@
       </div>
 
       <div class="e-shortcut-image">
-        <button type="button" @click="openChooseImageDialog()">
-          图片
+        <button type="button" @click="openChooseImageDialog()"
+                :disabled="displaySourceCode">图片
         </button>
+      </div>
+
+      <div class="e-shortcut-source-code">
+        <button type="button" @click="onSourceCode">源码</button>
       </div>
     </div>
 
-    <editor-content class="e-content" :editor="editor"/>
+    <cm-editor v-if="displaySourceCode" ref="cmEditorRef" :doc="editor.getHTML()"/>
+    <editor-content v-else class="e-content" :editor="editor"/>
   </div>
 </template>
 
 <script setup>
+import {ref} from "vue"
 import {Editor, EditorContent} from "@tiptap/vue-3"
 import StarterKit from "@tiptap/starter-kit"
 import {Image} from "@tiptap/extension-image"
@@ -92,6 +100,8 @@ import {TaskItem} from "@tiptap/extension-task-item"
 import {TaskList} from "@tiptap/extension-task-list"
 import {Typography} from "@tiptap/extension-typography"
 import {Underline} from "@tiptap/extension-underline"
+//
+import CmEditor from "~/views/note/my/cmEditor.vue"
 
 let props = defineProps({
   notEditable: {
@@ -174,8 +184,23 @@ function imageToBase64(file) {
 function setImage(url) {
   // const url = window.prompt('URL')
   if (url) {
-    editor.chain().focus().setImage({src: url}).run()
+    editor.chain().focus().setImage({
+      src: url,
+      height: 200
+    }).run()
   }
+}
+
+const displaySourceCode = ref(false)
+
+const cmEditorRef = ref(null)
+
+const onSourceCode = () => {
+  if (displaySourceCode.value) {
+    // console.log(cmEditorRef.value.getDoc())
+    editor.commands.setContent(cmEditorRef.value.getDoc())
+  }
+  displaySourceCode.value = !displaySourceCode.value
 }
 
 defineExpose({
@@ -192,13 +217,18 @@ defineExpose({
     text-sm text-gray-500
   }
 
+  .e-toolbar button[disabled] {
+    @apply text-gray-300
+  }
+
   .e-shortcut-table {
     .el-dropdown-link {
       @apply text-sm text-gray-500
     }
   }
 
-  .e-shortcut-image {
+  .e-shortcut-image,
+  .e-shortcut-source-code {
     @apply ml-2
   }
 }
